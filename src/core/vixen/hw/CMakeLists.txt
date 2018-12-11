@@ -10,7 +10,6 @@ file(GLOB DIR_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/sm/*.h
     ${CMAKE_CURRENT_SOURCE_DIR}/pci/*.h
     ${CMAKE_CURRENT_SOURCE_DIR}/pci/bmide/*.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/nv2a/*.h
     ${CMAKE_CURRENT_SOURCE_DIR}/ohci/*.h
     ${CMAKE_CURRENT_SOURCE_DIR}/xid/*.h
     )
