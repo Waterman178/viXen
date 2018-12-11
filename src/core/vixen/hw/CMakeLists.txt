@@ -7,6 +7,8 @@ file(GLOB DIR_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/atapi/cmds/*.h
     ${CMAKE_CURRENT_SOURCE_DIR}/basic/*.h
     ${CMAKE_CURRENT_SOURCE_DIR}/bus/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/nv2a/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/nv2a/engines/*.h
     ${CMAKE_CURRENT_SOURCE_DIR}/sm/*.h
     ${CMAKE_CURRENT_SOURCE_DIR}/pci/*.h
     ${CMAKE_CURRENT_SOURCE_DIR}/pci/bmide/*.h
@@ -23,6 +25,8 @@ file(GLOB DIR_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/atapi/cmds/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/basic/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/bus/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/nv2a/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/nv2a/engines/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sm/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/pci/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/pci/bmide/*.cpp
