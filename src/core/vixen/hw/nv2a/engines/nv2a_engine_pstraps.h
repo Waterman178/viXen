@@ -1,7 +1,7 @@
 // NV2A emulation for the Original Xbox
 // (C) Ivan "StrikerX3" Oliveira
 //
-// NV2A PSTRAPS (Straps Readout) definitions.
+// NV2A PSTRAPS (Straps Readout) engine.
 //
 // Portions based on envytools documentation:
 //   https://envytools.readthedocs.io/en/latest/index.html
@@ -17,7 +17,7 @@ namespace nv2a {
 
 class NV2APSTRAPSEngine : public INV2AEngineBase<kEngine_PSTRAPS> {
 public:
-    NV2APSTRAPSEngine();
+    NV2APSTRAPSEngine(NV2A& nv2a);
     ~NV2APSTRAPSEngine();
 
     void Start() override;

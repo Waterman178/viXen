@@ -1,7 +1,7 @@
 // NV2A emulation for the Original Xbox
 // (C) Ivan "StrikerX3" Oliveira
 //
-// NV2A PVIDEO (Video Overlay) definitions.
+// NV2A PVIDEO (Video Overlay) engine.
 //
 // Portions based on envytools documentation:
 //   https://envytools.readthedocs.io/en/latest/index.html
@@ -17,7 +17,7 @@ namespace nv2a {
 
 class NV2APVIDEOEngine : public INV2AEngineBase<kEngine_PVIDEO> {
 public:
-    NV2APVIDEOEngine();
+    NV2APVIDEOEngine(NV2A& nv2a);
     ~NV2APVIDEOEngine();
 
     void Start() override;

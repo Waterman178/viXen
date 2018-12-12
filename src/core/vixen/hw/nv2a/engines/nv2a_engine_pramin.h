@@ -1,7 +1,7 @@
 // NV2A emulation for the Original Xbox
 // (C) Ivan "StrikerX3" Oliveira
 //
-// NV2A PRAMIN (RAMIN Access) definitions.
+// NV2A PRAMIN (RAMIN Access) engine.
 //
 // Portions based on envytools documentation:
 //   https://envytools.readthedocs.io/en/latest/index.html
@@ -17,7 +17,7 @@ namespace nv2a {
 
 class NV2APRAMINEngine : public INV2AEngineBase<kEngine_PRAMIN> {
 public:
-    NV2APRAMINEngine();
+    NV2APRAMINEngine(NV2A& nv2a);
     ~NV2APRAMINEngine();
 
     void Start() override;

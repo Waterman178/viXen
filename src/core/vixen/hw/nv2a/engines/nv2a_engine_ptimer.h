@@ -1,7 +1,7 @@
 // NV2A emulation for the Original Xbox
 // (C) Ivan "StrikerX3" Oliveira
 //
-// NV2A PTIMER (Time Measurement and Time-Based Alarms) definitions.
+// NV2A PTIMER (Time Measurement and Time-Based Alarms) engine.
 //
 // Portions based on envytools documentation:
 //   https://envytools.readthedocs.io/en/latest/index.html
@@ -17,7 +17,7 @@ namespace nv2a {
 
 class NV2APTIMEREngine : public INV2AEngineBase<kEngine_PTIMER> {
 public:
-    NV2APTIMEREngine();
+    NV2APTIMEREngine(NV2A& nv2a);
     ~NV2APTIMEREngine();
 
     void Start() override;

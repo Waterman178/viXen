@@ -1,7 +1,7 @@
 // NV2A emulation for the Original Xbox
 // (C) Ivan "StrikerX3" Oliveira
 //
-// NV2A PRAMDAC (RAMDAC, video overlay, cursor, and PLL control) definitions.
+// NV2A PRAMDAC (RAMDAC, video overlay, cursor, and PLL control) engine.
 //
 // Portions based on envytools documentation:
 //   https://envytools.readthedocs.io/en/latest/index.html
@@ -17,7 +17,7 @@ namespace nv2a {
 
 class NV2APRAMDACEngine : public INV2AEngineBase<kEngine_PRAMDAC> {
 public:
-    NV2APRAMDACEngine();
+    NV2APRAMDACEngine(NV2A& nv2a);
     ~NV2APRAMDACEngine();
 
     void Start() override;

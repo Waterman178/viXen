@@ -15,6 +15,8 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
+class NV2A;
+
 /*!
  * A sparse array of write masks.
  * Entries not present in the array are considered to be unmasked, i.e. allow writing all bits of the register.
@@ -82,7 +84,9 @@ protected:
 template<const Engine& engine, const WriteMasks& writeMasks = kEmptyWriteMasks>
 class INV2AEngineBase : public INV2AEngine {
 public:
-    INV2AEngineBase() {
+    INV2AEngineBase(NV2A& nv2a)
+        : m_nv2a(nv2a)
+    {
         // Enable all engines that do not have a flag in the PMC Enable register
         if constexpr (engine.enableBit == PMCEnableNone) {
             m_enabled = true;
@@ -178,6 +182,11 @@ protected:
         case 4: *(uint32_t*)&m_regs[reg] = value; break;
         }
     }
+
+    /*!
+     * Reference to the NV2A device that owns this engine.
+     */
+    NV2A& m_nv2a;
 
 private:
     // The registers used by this engine

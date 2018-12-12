@@ -1,7 +1,7 @@
 // NV2A emulation for the Original Xbox
 // (C) Ivan "StrikerX3" Oliveira
 //
-// NV2A PFIFO (MMIO and DMA FIFO submission to PGRAPH) definitions.
+// NV2A PFIFO (MMIO and DMA FIFO submission to PGRAPH) engine.
 //
 // Portions based on envytools documentation:
 //   https://envytools.readthedocs.io/en/latest/index.html
@@ -15,9 +15,11 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
+class NV2A;
+
 class NV2APFIFOEngine : public INV2AEngineBase<kEngine_PFIFO> {
 public:
-    NV2APFIFOEngine();
+    NV2APFIFOEngine(NV2A& nv2a);
     ~NV2APFIFOEngine();
 
     void Start() override;

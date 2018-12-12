@@ -1,7 +1,7 @@
 // NV2A emulation for the Original Xbox
 // (C) Ivan "StrikerX3" Oliveira
 //
-// NV2A PCOUNTER (Performance Monitoring Counters) definitions.
+// NV2A PCOUNTER (Performance Monitoring Counters) engine.
 //
 // Portions based on envytools documentation:
 //   https://envytools.readthedocs.io/en/latest/index.html
@@ -17,7 +17,7 @@ namespace nv2a {
 
 class NV2APCOUNTEREngine : public INV2AEngineBase<kEngine_PCOUNTER> {
 public:
-    NV2APCOUNTEREngine();
+    NV2APCOUNTEREngine(NV2A& nv2a);
     ~NV2APCOUNTEREngine();
 
     void Start() override;

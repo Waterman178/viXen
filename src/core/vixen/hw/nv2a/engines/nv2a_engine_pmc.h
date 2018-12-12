@@ -1,7 +1,7 @@
 // NV2A emulation for the Original Xbox
 // (C) Ivan "StrikerX3" Oliveira
 //
-// NV2A PMC (Master Control) definitions.
+// NV2A PMC (Master Control) engine.
 //
 // Portions based on envytools documentation:
 //   https://envytools.readthedocs.io/en/latest/index.html
@@ -21,7 +21,7 @@ static WriteMasks kWriteMasks = {
 
 class NV2APMCEngine : public INV2AEngineBase<kEngine_PMC, kWriteMasks> {
 public:
-    NV2APMCEngine();
+    NV2APMCEngine(NV2A& nv2a);
     ~NV2APMCEngine();
 
 protected:

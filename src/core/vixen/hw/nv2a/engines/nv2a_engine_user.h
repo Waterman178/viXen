@@ -1,7 +1,7 @@
 // NV2A emulation for the Original Xbox
 // (C) Ivan "StrikerX3" Oliveira
 //
-// NV2A USER (PFIFO MMIO/DMA Submission Area) definitions.
+// NV2A USER (PFIFO MMIO/DMA Submission Area) engine.
 //
 // Portions based on envytools documentation:
 //   https://envytools.readthedocs.io/en/latest/index.html
@@ -17,7 +17,7 @@ namespace nv2a {
 
 class NV2AUSEREngine : public INV2AEngineBase<kEngine_USER> {
 public:
-    NV2AUSEREngine();
+    NV2AUSEREngine(NV2A& nv2a);
     ~NV2AUSEREngine();
 
     void Start() override;

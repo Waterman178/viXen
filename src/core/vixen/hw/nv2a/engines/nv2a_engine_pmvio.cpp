@@ -13,7 +13,8 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
-NV2APMVIOEngine::NV2APMVIOEngine() {
+NV2APMVIOEngine::NV2APMVIOEngine(NV2A& nv2a)
+    : INV2AEngineBase(nv2a) {
 }
 
 NV2APMVIOEngine::~NV2APMVIOEngine() {

@@ -10,6 +10,7 @@
 #include <cstdint>
 
 #include "nv2a_pmc_defs.h"
+#include "nv2a_pfb_defs.h"
 
 namespace vixen {
 namespace hw {

@@ -13,7 +13,8 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
-NV2APCOUNTEREngine::NV2APCOUNTEREngine() {
+NV2APCOUNTEREngine::NV2APCOUNTEREngine(NV2A& nv2a)
+    : INV2AEngineBase(nv2a) {
 }
 
 NV2APCOUNTEREngine::~NV2APCOUNTEREngine() {

@@ -13,7 +13,8 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
-NV2APVIDEOEngine::NV2APVIDEOEngine() {
+NV2APVIDEOEngine::NV2APVIDEOEngine(NV2A& nv2a)
+    : INV2AEngineBase(nv2a) {
 }
 
 NV2APVIDEOEngine::~NV2APVIDEOEngine() {

@@ -11,8 +11,7 @@
 #include "pci.h"
 #include "../basic/irq.h"
 
-#include "vixen/hw/nv2a/nv2a_defs.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine.h"
+#include "vixen/hw/nv2a/nv2a.h"
 
 namespace vixen {
 
@@ -31,17 +30,7 @@ public:
     void PCIMMIOWrite(int barIndex, uint32_t addr, uint32_t value, uint8_t size) override;
 
 private:
-    uint8_t *m_ram;
-    uint32_t m_ramSize;
-    IRQHandler& m_irqHandler;
-
-    // ----- Engines ----------------------------------------------------------
-
-    void RegisterEngine(hw::nv2a::INV2AEngine *engine);
-    bool LookupEngine(uint32_t addr, hw::nv2a::INV2AEngine **engine);
-
-    std::map<uint32_t, hw::nv2a::INV2AEngine *> m_engines;
-
+    hw::nv2a::NV2A *m_nv2a;
 };
 
 }

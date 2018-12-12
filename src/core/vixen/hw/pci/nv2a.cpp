@@ -7,25 +7,6 @@
 #include "vixen/log.h"
 #include "vixen/thread.h"
 
-#include "vixen/hw/nv2a/engines/nv2a_engine_pmc.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine_pbus.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine_pfifo.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine_prma.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine_pvideo.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine_ptimer.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine_pcounter.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine_pmvio.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine_pfb.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine_pstraps.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine_prom.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine_pgraph.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine_pcrtc.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine_prmcio.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine_pramdac.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine_prmdio.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine_pramin.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine_user.h"
-
 namespace vixen {
 
 using namespace hw::nv2a;
@@ -33,39 +14,12 @@ using namespace hw::nv2a;
 NV2ADevice::NV2ADevice(uint8_t *ram, uint32_t ramSize, IRQHandler& irqHandler)
 	: PCIDevice(PCI_HEADER_TYPE_NORMAL, PCI_VENDOR_ID_NVIDIA, 0x02A0, 0xA1,
 		0x03, 0x00, 0x00) // VGA-compatible controller
-    , m_ram(ram)
-    , m_ramSize(ramSize)
-    , m_irqHandler(irqHandler)
 {
-    RegisterEngine(new NV2APMCEngine());
-    RegisterEngine(new NV2APBUSEngine());
-    RegisterEngine(new NV2APFIFOEngine());
-    RegisterEngine(new NV2APRMAEngine());
-    RegisterEngine(new NV2APVIDEOEngine());
-    RegisterEngine(new NV2APTIMEREngine());
-    RegisterEngine(new NV2APCOUNTEREngine());
-    RegisterEngine(new NV2APMVIOEngine());
-    RegisterEngine(new NV2APFBEngine());
-    RegisterEngine(new NV2APSTRAPSEngine());
-    RegisterEngine(new NV2APROMEngine());
-    RegisterEngine(new NV2APGRAPHEngine());
-    RegisterEngine(new NV2APCRTCEngine());
-    RegisterEngine(new NV2APRMCIOEngine());
-    RegisterEngine(new NV2APRAMDACEngine());
-    RegisterEngine(new NV2APRMDIOEngine());
-    RegisterEngine(new NV2APRAMINEngine());
-    RegisterEngine(new NV2AUSEREngine());
+    m_nv2a = new NV2A(ram, ramSize, irqHandler);
 }
 
 NV2ADevice::~NV2ADevice() {
-    for (auto it = m_engines.begin(); it != m_engines.end(); it++) {
-        delete it->second;
-    }
-}
-
-void NV2ADevice::RegisterEngine(INV2AEngine *engine) {
-    m_engines[engine->GetParams().mmioRange.base] = engine;
-    engine->Reset();
+    delete m_nv2a;
 }
 
 // PCI Device functions
@@ -80,25 +34,7 @@ void NV2ADevice::Init() {
 }
 
 void NV2ADevice::Reset() {
-}
-
-bool NV2ADevice::LookupEngine(uint32_t addr, INV2AEngine **engine) {
-    auto p = m_engines.upper_bound(addr);
-
-    // p->first > addr
-    if (p == m_engines.begin()) {
-        return false;
-    }
-
-    // p->first <= addr
-    --p;
-
-    if (p->second->GetParams().mmioRange.InRange(addr)) {
-        *engine = p->second;
-        return true;
-    }
-
-    return false;
+    m_nv2a->Reset();
 }
 
 void NV2ADevice::PCIIORead(int barIndex, uint32_t port, uint32_t *value, uint8_t size) {
@@ -116,30 +52,10 @@ void NV2ADevice::PCIMMIORead(int barIndex, uint32_t addr, uint32_t *value, uint8
     }
 
     if (barIndex == 0) {
-        INV2AEngine *engine;
-        if (!LookupEngine(addr, &engine)) {
-            log_warning("NV2ADevice::MMIORead:  Unmapped MMIO read!  bar = %d,  addr = 0x%x,  size = %u\n", barIndex, addr, size);
-            *value = 0;
-        }
-        else if (engine->IsEnabled()) {
-            engine->Read(addr - engine->GetParams().mmioRange.base, value, size);
-        }
-        else {
-            *value = 0;
-        }
+        m_nv2a->ReadEngine(addr, value, size);
     }
     else { // barIndex == 1
-        // Map to system RAM
-        if (addr + size <= m_ramSize) {
-            switch (size) {
-            case 1: *value = m_ram[addr]; break;
-            case 2: *value = *(uint16_t*)&m_ram[addr]; break;
-            case 4: *value = *(uint32_t*)&m_ram[addr]; break;
-            }
-        }
-        else {
-            *value = 0;
-        }
+        m_nv2a->ReadVRAM(addr, value, size);
     }
 }
 
@@ -149,23 +65,10 @@ void NV2ADevice::PCIMMIOWrite(int barIndex, uint32_t addr, uint32_t value, uint8
     }
 
     if (barIndex == 0) {
-        INV2AEngine *engine;
-        if (!LookupEngine(addr, &engine)) {
-            log_warning("NV2ADevice::MMIOWrite:  Unmapped MMIO write!  bar = %d,  addr = 0x%x,  size = %u,  value = 0x%x\n", barIndex, addr, size, value);
-        }
-        else if (engine->IsEnabled()) {
-            engine->Write(addr - engine->GetParams().mmioRange.base, value, size);
-        }
+        m_nv2a->WriteEngine(addr, value, size);
     }
     else { // barIndex == 1
-        // Map to system RAM
-        if (addr + size <= m_ramSize) {
-            switch (size) {
-            case 1: m_ram[addr] = value; break;
-            case 2: *(uint16_t*)&m_ram[addr] = value; break;
-            case 4: *(uint32_t*)&m_ram[addr] = value; break;
-            }
-        }
+        m_nv2a->WriteVRAM(addr, value, size);
     }
 }
 
