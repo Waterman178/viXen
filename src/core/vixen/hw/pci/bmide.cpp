@@ -50,10 +50,10 @@ void BMIDEDevice::PCIIORead(int barIndex, uint32_t port, uint32_t *value, uint8_
     switch (port) {
     case RegPrimaryCommand: m_channels[ChanPrimary]->ReadCommand(value, size); break;
     case RegPrimaryStatus: m_channels[ChanPrimary]->ReadStatus(value, size); break;
-    case RegPrimaryPRDTableAddress: m_channels[ChanPrimary]->ReadPRDTableAddress(value, size); break;  // TODO: handle unaligned accesses
+    case RegPrimaryPRDTableAddress: m_channels[ChanPrimary]->ReadPRDTableAddress(value, size); break;  // TODO: handle misaligned accesses
     case RegSecondaryCommand: m_channels[ChanSecondary]->ReadCommand(value, size); break;
     case RegSecondaryStatus: m_channels[ChanSecondary]->ReadStatus(value, size); break;
-    case RegSecondaryPRDTableAddress: m_channels[ChanSecondary]->ReadPRDTableAddress(value, size); break;  // TODO: handle unaligned accesses
+    case RegSecondaryPRDTableAddress: m_channels[ChanSecondary]->ReadPRDTableAddress(value, size); break;  // TODO: handle misaligned accesses
     default:
         *value = 0;
         log_spew("BMIDEDevice::PCIIORead:   Unimplemented!  bar = %d,  port = 0x%x,  size = %u\n", barIndex, port, size);

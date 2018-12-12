@@ -86,9 +86,9 @@ void BMIDEChannel::WritePRDTableAddress(uint32_t value, uint8_t size) {
     // Clear least significant bit, which must always be zero
     value &= ~1;
 
-    // Check for unaligned address
+    // Check for misaligned address
     if (value & (sizeof(uint32_t) - 1)) {
-        log_warning("BMIDEChannel::WritePRDTableAddress:  Guest wrote unaligned PRD table address: 0x%x\n", value);
+        log_warning("BMIDEChannel::WritePRDTableAddress:  Guest wrote misaligned PRD table address: 0x%x\n", value);
     }
 
     // Update register value

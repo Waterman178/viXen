@@ -1011,7 +1011,7 @@ uint32_t OHCI::OHCI_ReadRegister(uint32_t Addr)
 
 	if (Addr & 3) {
 		// The standard allows only aligned reads to the registers
-        log_debug("OHCI: Unaligned read. Ignoring.\n");
+        log_debug("OHCI: Misaligned read. Ignoring.\n");
 		return ret;
 	}
 	else {
@@ -1126,7 +1126,7 @@ void OHCI::OHCI_WriteRegister(uint32_t Addr, uint32_t Value)
 {
 	if (Addr & 3) {
 		// The standard allows only aligned writes to the registers
-        log_debug("OHCI: Unaligned write. Ignoring.\n");
+        log_debug("OHCI: Misaligned write. Ignoring.\n");
 		return;
 	}
 	else {

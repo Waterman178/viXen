@@ -6,10 +6,25 @@
 #include "nv2a.h"
 #include "vixen/log.h"
 #include "vixen/thread.h"
-#include "vixen/hw/nv2a/engines/nv2a_engine_pmc.h"
 
-#include <cassert>
-#include <cstring>
+#include "vixen/hw/nv2a/engines/nv2a_engine_pmc.h"
+#include "vixen/hw/nv2a/engines/nv2a_engine_pbus.h"
+#include "vixen/hw/nv2a/engines/nv2a_engine_pfifo.h"
+#include "vixen/hw/nv2a/engines/nv2a_engine_prma.h"
+#include "vixen/hw/nv2a/engines/nv2a_engine_pvideo.h"
+#include "vixen/hw/nv2a/engines/nv2a_engine_ptimer.h"
+#include "vixen/hw/nv2a/engines/nv2a_engine_pcounter.h"
+#include "vixen/hw/nv2a/engines/nv2a_engine_pmvio.h"
+#include "vixen/hw/nv2a/engines/nv2a_engine_pfb.h"
+#include "vixen/hw/nv2a/engines/nv2a_engine_pstraps.h"
+#include "vixen/hw/nv2a/engines/nv2a_engine_prom.h"
+#include "vixen/hw/nv2a/engines/nv2a_engine_pgraph.h"
+#include "vixen/hw/nv2a/engines/nv2a_engine_pcrtc.h"
+#include "vixen/hw/nv2a/engines/nv2a_engine_prmcio.h"
+#include "vixen/hw/nv2a/engines/nv2a_engine_pramdac.h"
+#include "vixen/hw/nv2a/engines/nv2a_engine_prmdio.h"
+#include "vixen/hw/nv2a/engines/nv2a_engine_pramin.h"
+#include "vixen/hw/nv2a/engines/nv2a_engine_user.h"
 
 namespace vixen {
 
@@ -23,6 +38,23 @@ NV2ADevice::NV2ADevice(uint8_t *ram, uint32_t ramSize, IRQHandler& irqHandler)
     , m_irqHandler(irqHandler)
 {
     RegisterEngine(new NV2APMCEngine());
+    RegisterEngine(new NV2APBUSEngine());
+    RegisterEngine(new NV2APFIFOEngine());
+    RegisterEngine(new NV2APRMAEngine());
+    RegisterEngine(new NV2APVIDEOEngine());
+    RegisterEngine(new NV2APTIMEREngine());
+    RegisterEngine(new NV2APCOUNTEREngine());
+    RegisterEngine(new NV2APMVIOEngine());
+    RegisterEngine(new NV2APFBEngine());
+    RegisterEngine(new NV2APSTRAPSEngine());
+    RegisterEngine(new NV2APROMEngine());
+    RegisterEngine(new NV2APGRAPHEngine());
+    RegisterEngine(new NV2APCRTCEngine());
+    RegisterEngine(new NV2APRMCIOEngine());
+    RegisterEngine(new NV2APRAMDACEngine());
+    RegisterEngine(new NV2APRMDIOEngine());
+    RegisterEngine(new NV2APRAMINEngine());
+    RegisterEngine(new NV2AUSEREngine());
 }
 
 NV2ADevice::~NV2ADevice() {
@@ -78,42 +110,45 @@ void NV2ADevice::PCIIOWrite(int barIndex, uint32_t port, uint32_t value, uint8_t
 }
 
 void NV2ADevice::PCIMMIORead(int barIndex, uint32_t addr, uint32_t *value, uint8_t size) {
-    if (size != 4) {
-        log_warning("NV2ADevice::MMIORead:  Unexpected read of size %u!  bar = %d,  addr = 0x%x\n", size, barIndex, addr);
+    if (addr & 3) {
+        log_warning("NV2ADevice::MMIORead:  Misaligned MMIO read!  bar = %d,  addr = 0x%x,  size = %u\n", barIndex, addr, size);
     }
 
     if (barIndex == 0) {
         INV2AEngine *engine;
         if (!LookupEngine(addr, &engine)) {
-            log_warning("NV2ADevice::MMIORead:  Unmapped access!  bar = %d,  addr = 0x%x,  size = %u\n", barIndex, addr, size);
+            log_warning("NV2ADevice::MMIORead:  Unmapped MMIO read!  bar = %d,  addr = 0x%x,  size = %u\n", barIndex, addr, size);
             *value = 0;
         }
+        else if (engine->IsEnabled()) {
+            engine->Read(addr - engine->GetEngineDefs().mmioRange.base, value, size);
+        }
         else {
-            engine->Read(addr - engine->GetEngineDefs().mmioRange.base, value);
+            *value = 0;
         }
     }
     else { // barIndex == 1
-        log_warning("NV2ADevice::MMIORead:  Unimplemented!  bar = %d,  addr = 0x%x,  size = %u\n", barIndex, addr, size);
+        log_warning("NV2ADevice::MMIORead:  Unimplemented MMIO read!  bar = %d,  addr = 0x%x,  size = %u\n", barIndex, addr, size);
         *value = 0;
     }
 }
 
 void NV2ADevice::PCIMMIOWrite(int barIndex, uint32_t addr, uint32_t value, uint8_t size) {
-    if (size != 4) {
-        log_warning("NV2ADevice::MMIOWrite:  Unexpected read of size %u!  bar = %d,  addr = 0x%x,  value = 0x%x\n", size, barIndex, addr, value);
+    if (addr & 3) {
+        log_warning("NV2ADevice::MMIOWrite:  Misaligned MMIO write!  bar = %d,  addr = 0x%x,  size = %u,  value = 0x%x\n", barIndex, addr, size, value);
     }
 
     if (barIndex == 0) {
         INV2AEngine *engine;
         if (!LookupEngine(addr, &engine)) {
-            log_warning("NV2ADevice::MMIOWrite:  Unmapped access!  bar = %d,  addr = 0x%x,  size = %u,  value = 0x%x\n", barIndex, addr, size, value);
+            log_warning("NV2ADevice::MMIOWrite:  Unmapped MMIO write!  bar = %d,  addr = 0x%x,  size = %u,  value = 0x%x\n", barIndex, addr, size, value);
         }
-        else {
-            engine->Write(addr - engine->GetEngineDefs().mmioRange.base, value);
+        else if (engine->IsEnabled()) {
+            engine->Write(addr - engine->GetEngineDefs().mmioRange.base, value, size);
         }
     }
     else { // barIndex == 1
-        log_warning("NV2ADevice::MMIOWrite:  Unimplemented!  bar = %d,  addr = 0x%x,  size = %u,  value = 0x%x\n", barIndex, addr, size, value);
+        log_warning("NV2ADevice::MMIOWrite:  Unimplemented MMIO write!  bar = %d,  addr = 0x%x,  size = %u,  value = 0x%x\n", barIndex, addr, size, value);
     }
 }
 

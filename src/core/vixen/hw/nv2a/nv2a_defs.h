@@ -42,12 +42,12 @@ const Engine kEngine_PFB      = { { 0x00100000,   0x1000 }, PMCEnginePFB    };  
 const Engine kEngine_PSTRAPS  = { { 0x00101000,   0x1000 }, PMCEngineNone   };   // Straps readout
 const Engine kEngine_PROM     = { { 0x00300000,  0x20000 }, PMCEngineNone   };   // ROM access window
 const Engine kEngine_PGRAPH   = { { 0x00400000,   0x2000 }, PMCEnginePGRAPH };   // 2D/3D graphics engine
-const Engine kEngine_PCTRC    = { { 0x00600000,   0x1000 }, PMCEnginePCRTC  };   // CRTC controls
+const Engine kEngine_PCRTC    = { { 0x00600000,   0x1000 }, PMCEnginePCRTC  };   // CRTC controls
 const Engine kEngine_PRMCIO   = { { 0x00601000,   0x1000 }, PMCEngineNone   };   // VGA CRTC and attribute controller registers
 const Engine kEngine_PRAMDAC  = { { 0x00680000,   0x1000 }, PMCEngineNone   };   // RAMDAC, video overlay, cursor, and PLL control
 const Engine kEngine_PRMDIO   = { { 0x00681000,   0x1000 }, PMCEngineNone   };   // VGA DAC registers
 const Engine kEngine_PRAMIN   = { { 0x00700000, 0x100000 }, PMCEngineNone   };   // RAMIN access
-const Engine kEngine_PUSER    = { { 0x00800000, 0x200000 }, PMCEngineNone   };   // PFIFO MMIO/DMA submission area
+const Engine kEngine_USER     = { { 0x00800000, 0x200000 }, PMCEngineNone   };   // PFIFO MMIO/DMA submission area
 
 }
 }

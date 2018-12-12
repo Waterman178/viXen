@@ -52,7 +52,7 @@ const uint32_t kPMCEndianSwitchBit = 24;
 // Setting 1 to the corresponding bit enables the engine, 0 disables it.
 // MMIO ranges are removed and engines are reset when disabled.
 enum PMCEngine : uint32_t {
-    PMCEngineNone = 0,             // No engine (used for engines that cannot be disabled)
+    PMCEngineNone = 0,              // No engine (used for engines that cannot be disabled)
     PMCEnginePFIFO = (1u << 8),     // PFIFO
     PMCEnginePGRAPH = (1u << 12),   // PGRAPH
     PMCEnginePTIMER = (1u << 16),   // PTIMER

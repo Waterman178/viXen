@@ -130,7 +130,7 @@ bool IOMapper::IOWrite(uint32_t addr, uint32_t value, uint8_t size) {
 
 bool IOMapper::MMIORead(uint32_t addr, uint32_t *value, uint8_t size) {
     if ((addr & (size - 1)) != 0) {
-        log_warning("IOMapper::MMIORead:   Unaligned MMIO read!   address = 0x%x,  size = %u\n", addr, size);
+        log_warning("IOMapper::MMIORead:   Misaligned MMIO read!   address = 0x%x,  size = %u\n", addr, size);
         return false;
     }
 
@@ -155,7 +155,7 @@ bool IOMapper::MMIORead(uint32_t addr, uint32_t *value, uint8_t size) {
 
 bool IOMapper::MMIOWrite(uint32_t addr, uint32_t value, uint8_t size) {
     if ((addr & (size - 1)) != 0) {
-        log_warning("IOMapper::MMIOWrite:  Unaligned MMIO write!  address = 0x%x,  size = %u,  value = 0x%x\n", addr, size, value);
+        log_warning("IOMapper::MMIOWrite:  Misaligned MMIO write!  address = 0x%x,  size = %u,  value = 0x%x\n", addr, size, value);
         return false;
     }
 

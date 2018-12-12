@@ -18,19 +18,33 @@ namespace nv2a {
 // Interface for NV2A engines
 class INV2AEngine {
 public:
+    INV2AEngine(const Engine& engineDefs);
     virtual ~INV2AEngine();
 
-protected:
-    INV2AEngine(const Engine& engineDefs);
+    virtual void Stop() = 0;
+    virtual void Reset();
 
-public:
+    virtual void Read(uint32_t address, uint32_t *value, uint8_t size) = 0;
+    virtual void Write(uint32_t address, uint32_t value, uint8_t size) = 0;
+
+    // Determines if the engine is enabled.
+    // Some engines may be disabled through a PMC register, in which case they
+    // will reset and become inaccessible through MMIO.
+    virtual bool IsEnabled() { return m_enabled; }
+
+    // Enables this engine.
+    void Enable();
+
+    // Disables this engine. Not all engines may be disabled.
+    void Disable();
+
     const Engine& GetEngineDefs() const { return m_engineDefs; }
-
-    virtual void Read(uint32_t address, uint32_t *value) = 0;
-    virtual void Write(uint32_t address, uint32_t value) = 0;
 
 private:
     const Engine& m_engineDefs;
+
+    // Whether the engine is enabled or disabled.
+    bool m_enabled;
 };
 
 }
