@@ -128,8 +128,17 @@ void NV2ADevice::PCIMMIORead(int barIndex, uint32_t addr, uint32_t *value, uint8
         }
     }
     else { // barIndex == 1
-        log_warning("NV2ADevice::MMIORead:  Unimplemented MMIO read!  bar = %d,  addr = 0x%x,  size = %u\n", barIndex, addr, size);
-        *value = 0;
+        // Map to system RAM
+        if (addr + size <= m_ramSize) {
+            switch (size) {
+            case 1: *value = m_ram[addr]; break;
+            case 2: *value = *(uint16_t*)&m_ram[addr]; break;
+            case 4: *value = *(uint32_t*)&m_ram[addr]; break;
+            }
+        }
+        else {
+            *value = 0;
+        }
     }
 }
 
@@ -148,7 +157,14 @@ void NV2ADevice::PCIMMIOWrite(int barIndex, uint32_t addr, uint32_t value, uint8
         }
     }
     else { // barIndex == 1
-        log_warning("NV2ADevice::MMIOWrite:  Unimplemented MMIO write!  bar = %d,  addr = 0x%x,  size = %u,  value = 0x%x\n", barIndex, addr, size, value);
+        // Map to system RAM
+        if (addr + size <= m_ramSize) {
+            switch (size) {
+            case 1: m_ram[addr] = value; break;
+            case 2: *(uint16_t*)&m_ram[addr] = value; break;
+            case 4: *(uint32_t*)&m_ram[addr] = value; break;
+            }
+        }
     }
 }
 
