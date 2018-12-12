@@ -13,18 +13,16 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
-NV2APBUSEngine::NV2APBUSEngine()
-    : INV2AEngine(kEngine_PBUS)
-{
+NV2APBUSEngine::NV2APBUSEngine() {
 }
 
 NV2APBUSEngine::~NV2APBUSEngine() {
 }
 
-void NV2APBUSEngine::Stop() {
+void NV2APBUSEngine::Start() {
 }
 
-void NV2APBUSEngine::Reset() {
+void NV2APBUSEngine::Stop() {
 }
 
 void NV2APBUSEngine::Read(uint32_t address, uint32_t *value, uint8_t size) {

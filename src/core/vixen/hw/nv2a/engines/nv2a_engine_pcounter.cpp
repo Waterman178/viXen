@@ -13,18 +13,16 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
-NV2APCOUNTEREngine::NV2APCOUNTEREngine()
-    : INV2AEngine(kEngine_PCOUNTER)
-{
+NV2APCOUNTEREngine::NV2APCOUNTEREngine() {
 }
 
 NV2APCOUNTEREngine::~NV2APCOUNTEREngine() {
 }
 
-void NV2APCOUNTEREngine::Stop() {
+void NV2APCOUNTEREngine::Start() {
 }
 
-void NV2APCOUNTEREngine::Reset() {
+void NV2APCOUNTEREngine::Stop() {
 }
 
 void NV2APCOUNTEREngine::Read(uint32_t address, uint32_t *value, uint8_t size) {

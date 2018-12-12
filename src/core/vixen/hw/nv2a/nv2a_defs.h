@@ -26,28 +26,28 @@ struct MMIORange {
 // Specifies parameters for an engine
 struct Engine {
     const MMIORange mmioRange;    // The range of MMIO addresses that access the engine
-    const PMCEngine engine;       // The engine bit mask used to enable/disable it, if applicable
+    const PMCEnable enableBit;    // The engine bit mask used to enable/disable it, if applicable
 };
 
 // Engines used by NV2A
-const Engine kEngine_PMC      = { { 0x00000000,   0x1000 }, PMCEngineNone   };   // Master control
-const Engine kEngine_PBUS     = { { 0x00001000,   0x1000 }, PMCEngineNone   };   // Bus control
-const Engine kEngine_PFIFO    = { { 0x00002000,   0x2000 }, PMCEnginePFIFO  };   // MMIO and DMA FIFO submission to PGRAPH  (there's no VPE in NV2A)
-const Engine kEngine_PRMA     = { { 0x00007000,   0x1000 }, PMCEngineNone   };   // Real mode BAR access
-const Engine kEngine_PVIDEO   = { { 0x00008000,   0x1000 }, PMCEnginePVIDEO };   // Video overlay
-const Engine kEngine_PTIMER   = { { 0x00009000,   0x1000 }, PMCEnginePTIMER };   // Time measurement and time-based alarms
-const Engine kEngine_PCOUNTER = { { 0x0000A000,   0x1000 }, PMCEngineNone   };   // Performance monitoring counters
-const Engine kEngine_PMVIO    = { { 0x000C0000,   0x1000 }, PMCEngineNone   };   // VGA sequencer and graph controller registers
-const Engine kEngine_PFB      = { { 0x00100000,   0x1000 }, PMCEnginePFB    };   // Memory interface
-const Engine kEngine_PSTRAPS  = { { 0x00101000,   0x1000 }, PMCEngineNone   };   // Straps readout
-const Engine kEngine_PROM     = { { 0x00300000,  0x20000 }, PMCEngineNone   };   // ROM access window
-const Engine kEngine_PGRAPH   = { { 0x00400000,   0x2000 }, PMCEnginePGRAPH };   // 2D/3D graphics engine
-const Engine kEngine_PCRTC    = { { 0x00600000,   0x1000 }, PMCEnginePCRTC  };   // CRTC controls
-const Engine kEngine_PRMCIO   = { { 0x00601000,   0x1000 }, PMCEngineNone   };   // VGA CRTC and attribute controller registers
-const Engine kEngine_PRAMDAC  = { { 0x00680000,   0x1000 }, PMCEngineNone   };   // RAMDAC, video overlay, cursor, and PLL control
-const Engine kEngine_PRMDIO   = { { 0x00681000,   0x1000 }, PMCEngineNone   };   // VGA DAC registers
-const Engine kEngine_PRAMIN   = { { 0x00700000, 0x100000 }, PMCEngineNone   };   // RAMIN access
-const Engine kEngine_USER     = { { 0x00800000, 0x200000 }, PMCEngineNone   };   // PFIFO MMIO/DMA submission area
+constexpr Engine kEngine_PMC      = { { 0x00000000,   0x1000 }, PMCEnableNone   };   // Master control
+constexpr Engine kEngine_PBUS     = { { 0x00001000,   0x1000 }, PMCEnableNone   };   // Bus control
+constexpr Engine kEngine_PFIFO    = { { 0x00002000,   0x2000 }, PMCEnablePFIFO  };   // MMIO and DMA FIFO submission to PGRAPH  (there's no VPE in NV2A)
+constexpr Engine kEngine_PRMA     = { { 0x00007000,   0x1000 }, PMCEnableNone   };   // Real mode BAR access
+constexpr Engine kEngine_PVIDEO   = { { 0x00008000,   0x1000 }, PMCEnablePVIDEO };   // Video overlay
+constexpr Engine kEngine_PTIMER   = { { 0x00009000,   0x1000 }, PMCEnablePTIMER };   // Time measurement and time-based alarms
+constexpr Engine kEngine_PCOUNTER = { { 0x0000A000,   0x1000 }, PMCEnableNone   };   // Performance monitoring counters
+constexpr Engine kEngine_PMVIO    = { { 0x000C0000,   0x1000 }, PMCEnableNone   };   // VGA sequencer and graph controller registers
+constexpr Engine kEngine_PFB      = { { 0x00100000,   0x1000 }, PMCEnablePFB    };   // Memory interface
+constexpr Engine kEngine_PSTRAPS  = { { 0x00101000,   0x1000 }, PMCEnableNone   };   // Straps readout
+constexpr Engine kEngine_PROM     = { { 0x00300000,  0x20000 }, PMCEnableNone   };   // ROM access window
+constexpr Engine kEngine_PGRAPH   = { { 0x00400000,   0x2000 }, PMCEnablePGRAPH };   // 2D/3D graphics engine
+constexpr Engine kEngine_PCRTC    = { { 0x00600000,   0x1000 }, PMCEnablePCRTC  };   // CRTC controls
+constexpr Engine kEngine_PRMCIO   = { { 0x00601000,   0x1000 }, PMCEnableNone   };   // VGA CRTC and attribute controller registers
+constexpr Engine kEngine_PRAMDAC  = { { 0x00680000,   0x1000 }, PMCEnableNone   };   // RAMDAC, video overlay, cursor, and PLL control
+constexpr Engine kEngine_PRMDIO   = { { 0x00681000,   0x1000 }, PMCEnableNone   };   // VGA DAC registers
+constexpr Engine kEngine_PRAMIN   = { { 0x00700000, 0x100000 }, PMCEnableNone   };   // RAMIN access
+constexpr Engine kEngine_USER     = { { 0x00800000, 0x200000 }, PMCEnableNone   };   // PFIFO MMIO/DMA submission area
 
 }
 }

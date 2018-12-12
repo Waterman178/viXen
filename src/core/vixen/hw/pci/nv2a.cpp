@@ -64,7 +64,8 @@ NV2ADevice::~NV2ADevice() {
 }
 
 void NV2ADevice::RegisterEngine(INV2AEngine *engine) {
-    m_engines[engine->GetEngineDefs().mmioRange.base] = engine;
+    m_engines[engine->GetParams().mmioRange.base] = engine;
+    engine->Reset();
 }
 
 // PCI Device functions
@@ -92,7 +93,7 @@ bool NV2ADevice::LookupEngine(uint32_t addr, INV2AEngine **engine) {
     // p->first <= addr
     --p;
 
-    if (p->second->GetEngineDefs().mmioRange.InRange(addr)) {
+    if (p->second->GetParams().mmioRange.InRange(addr)) {
         *engine = p->second;
         return true;
     }
@@ -121,7 +122,7 @@ void NV2ADevice::PCIMMIORead(int barIndex, uint32_t addr, uint32_t *value, uint8
             *value = 0;
         }
         else if (engine->IsEnabled()) {
-            engine->Read(addr - engine->GetEngineDefs().mmioRange.base, value, size);
+            engine->Read(addr - engine->GetParams().mmioRange.base, value, size);
         }
         else {
             *value = 0;
@@ -153,7 +154,7 @@ void NV2ADevice::PCIMMIOWrite(int barIndex, uint32_t addr, uint32_t value, uint8
             log_warning("NV2ADevice::MMIOWrite:  Unmapped MMIO write!  bar = %d,  addr = 0x%x,  size = %u,  value = 0x%x\n", barIndex, addr, size, value);
         }
         else if (engine->IsEnabled()) {
-            engine->Write(addr - engine->GetEngineDefs().mmioRange.base, value, size);
+            engine->Write(addr - engine->GetParams().mmioRange.base, value, size);
         }
     }
     else { // barIndex == 1

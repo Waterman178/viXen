@@ -51,14 +51,14 @@ const uint32_t kPMCEndianSwitchBit = 24;
 // Bits indicating the engines controlled by the PMC Enable register.
 // Setting 1 to the corresponding bit enables the engine, 0 disables it.
 // MMIO ranges are removed and engines are reset when disabled.
-enum PMCEngine : uint32_t {
-    PMCEngineNone = 0,              // No engine (used for engines that cannot be disabled)
-    PMCEnginePFIFO = (1u << 8),     // PFIFO
-    PMCEnginePGRAPH = (1u << 12),   // PGRAPH
-    PMCEnginePTIMER = (1u << 16),   // PTIMER
-    PMCEnginePFB = (1u << 20),      // PFB
-    PMCEnginePCRTC = (1u << 24),    // PCRTC
-    PMCEnginePVIDEO = (1u << 28),   // PVIDEO
+enum PMCEnable : uint32_t {
+    PMCEnableNone = 0,              // No engine (used for engines that cannot be disabled)
+    PMCEnablePFIFO = (1u << 8),     // PFIFO
+    PMCEnablePGRAPH = (1u << 12),   // PGRAPH
+    PMCEnablePTIMER = (1u << 16),   // PTIMER
+    PMCEnablePFB = (1u << 20),      // PFB
+    PMCEnablePCRTC = (1u << 24),    // PCRTC
+    PMCEnablePVIDEO = (1u << 28),   // PVIDEO
 };
 
 // --- Interrupts

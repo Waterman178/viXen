@@ -15,13 +15,15 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
-class NV2APFBEngine : public INV2AEngine {
+static constexpr Engine kEngine= { { 0x00100000, 0x1000 }, PMCEnablePFB };
+
+class NV2APFBEngine : public INV2AEngineBase<kEngine_PFB> {
 public:
     NV2APFBEngine();
     ~NV2APFBEngine();
 
+    void Start() override;
     void Stop() override;
-    void Reset() override;
 
     void Read(uint32_t address, uint32_t *value, uint8_t size) override;
     void Write(uint32_t address, uint32_t value, uint8_t size) override;

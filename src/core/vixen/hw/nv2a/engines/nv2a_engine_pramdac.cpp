@@ -13,18 +13,16 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
-NV2APRAMDACEngine::NV2APRAMDACEngine()
-    : INV2AEngine(kEngine_PRAMDAC)
-{
+NV2APRAMDACEngine::NV2APRAMDACEngine() {
 }
 
 NV2APRAMDACEngine::~NV2APRAMDACEngine() {
 }
 
-void NV2APRAMDACEngine::Stop() {
+void NV2APRAMDACEngine::Start() {
 }
 
-void NV2APRAMDACEngine::Reset() {
+void NV2APRAMDACEngine::Stop() {
 }
 
 void NV2APRAMDACEngine::Read(uint32_t address, uint32_t *value, uint8_t size) {

@@ -13,18 +13,16 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
-NV2APGRAPHEngine::NV2APGRAPHEngine()
-    : INV2AEngine(kEngine_PGRAPH)
-{
+NV2APGRAPHEngine::NV2APGRAPHEngine() {
 }
 
 NV2APGRAPHEngine::~NV2APGRAPHEngine() {
 }
 
-void NV2APGRAPHEngine::Stop() {
+void NV2APGRAPHEngine::Start() {
 }
 
-void NV2APGRAPHEngine::Reset() {
+void NV2APGRAPHEngine::Stop() {
 }
 
 void NV2APGRAPHEngine::Read(uint32_t address, uint32_t *value, uint8_t size) {

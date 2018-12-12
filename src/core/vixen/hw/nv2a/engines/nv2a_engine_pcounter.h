@@ -15,13 +15,13 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
-class NV2APCOUNTEREngine : public INV2AEngine {
+class NV2APCOUNTEREngine : public INV2AEngineBase<kEngine_PCOUNTER> {
 public:
     NV2APCOUNTEREngine();
     ~NV2APCOUNTEREngine();
 
+    void Start() override;
     void Stop() override;
-    void Reset() override;
 
     void Read(uint32_t address, uint32_t *value, uint8_t size) override;
     void Write(uint32_t address, uint32_t value, uint8_t size) override;

@@ -13,18 +13,16 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
-NV2APCRTCEngine::NV2APCRTCEngine()
-    : INV2AEngine(kEngine_PCRTC)
-{
+NV2APCRTCEngine::NV2APCRTCEngine() {
 }
 
 NV2APCRTCEngine::~NV2APCRTCEngine() {
 }
 
-void NV2APCRTCEngine::Stop() {
+void NV2APCRTCEngine::Start() {
 }
 
-void NV2APCRTCEngine::Reset() {
+void NV2APCRTCEngine::Stop() {
 }
 
 void NV2APCRTCEngine::Read(uint32_t address, uint32_t *value, uint8_t size) {

@@ -15,13 +15,13 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
-class NV2APCRTCEngine : public INV2AEngine {
+class NV2APCRTCEngine : public INV2AEngineBase<kEngine_PCRTC> {
 public:
     NV2APCRTCEngine();
     ~NV2APCRTCEngine();
 
+    void Start() override;
     void Stop() override;
-    void Reset() override;
 
     void Read(uint32_t address, uint32_t *value, uint8_t size) override;
     void Write(uint32_t address, uint32_t value, uint8_t size) override;

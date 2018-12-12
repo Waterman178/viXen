@@ -15,13 +15,13 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
-class NV2APMVIOEngine : public INV2AEngine {
+class NV2APMVIOEngine : public INV2AEngineBase<kEngine_PMVIO> {
 public:
     NV2APMVIOEngine();
     ~NV2APMVIOEngine();
 
+    void Start() override;
     void Stop() override;
-    void Reset() override;
 
     void Read(uint32_t address, uint32_t *value, uint8_t size) override;
     void Write(uint32_t address, uint32_t value, uint8_t size) override;

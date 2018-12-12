@@ -13,18 +13,16 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
-NV2APFIFOEngine::NV2APFIFOEngine()
-    : INV2AEngine(kEngine_PFIFO)
-{
+NV2APFIFOEngine::NV2APFIFOEngine() {
 }
 
 NV2APFIFOEngine::~NV2APFIFOEngine() {
 }
 
-void NV2APFIFOEngine::Stop() {
+void NV2APFIFOEngine::Start() {
 }
 
-void NV2APFIFOEngine::Reset() {
+void NV2APFIFOEngine::Stop() {
 }
 
 void NV2APFIFOEngine::Read(uint32_t address, uint32_t *value, uint8_t size) {

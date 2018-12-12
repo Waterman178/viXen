@@ -13,18 +13,16 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
-NV2APVIDEOEngine::NV2APVIDEOEngine()
-    : INV2AEngine(kEngine_PVIDEO)
-{
+NV2APVIDEOEngine::NV2APVIDEOEngine() {
 }
 
 NV2APVIDEOEngine::~NV2APVIDEOEngine() {
 }
 
-void NV2APVIDEOEngine::Stop() {
+void NV2APVIDEOEngine::Start() {
 }
 
-void NV2APVIDEOEngine::Reset() {
+void NV2APVIDEOEngine::Stop() {
 }
 
 void NV2APVIDEOEngine::Read(uint32_t address, uint32_t *value, uint8_t size) {

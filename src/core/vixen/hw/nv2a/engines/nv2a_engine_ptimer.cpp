@@ -13,18 +13,16 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
-NV2APTIMEREngine::NV2APTIMEREngine()
-    : INV2AEngine(kEngine_PTIMER)
-{
+NV2APTIMEREngine::NV2APTIMEREngine() {
 }
 
 NV2APTIMEREngine::~NV2APTIMEREngine() {
 }
 
-void NV2APTIMEREngine::Stop() {
+void NV2APTIMEREngine::Start() {
 }
 
-void NV2APTIMEREngine::Reset() {
+void NV2APTIMEREngine::Stop() {
 }
 
 void NV2APTIMEREngine::Read(uint32_t address, uint32_t *value, uint8_t size) {

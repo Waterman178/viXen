@@ -15,26 +15,26 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
-class NV2APMCEngine : public INV2AEngine {
+static WriteMasks kWriteMasks = {
+    { PMCRegID, 0 },
+};
+
+class NV2APMCEngine : public INV2AEngineBase<kEngine_PMC, kWriteMasks> {
 public:
     NV2APMCEngine();
     ~NV2APMCEngine();
 
+protected:
+    void Start() override;
     void Stop() override;
-    void Reset() override;
 
+public:
     void Read(uint32_t address, uint32_t *value, uint8_t size) override;
     void Write(uint32_t address, uint32_t value, uint8_t size) override;
 
 private:
-    // Card identification, returned on PMCRegID
-    uint32_t m_cardID;
-
-    // Enabled engines
-    uint32_t m_enable;
-
-    // Sets the enabled engines and propagates the settings to the engines
-    void SetEnable(uint32_t value);
+    // Propagates the enable bits to the respective engines
+    void PropagateEnable();
 };
 
 }

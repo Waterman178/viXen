@@ -13,18 +13,16 @@ namespace vixen {
 namespace hw {
 namespace nv2a {
 
-NV2APRMCIOEngine::NV2APRMCIOEngine()
-    : INV2AEngine(kEngine_PRMCIO)
-{
+NV2APRMCIOEngine::NV2APRMCIOEngine() {
 }
 
 NV2APRMCIOEngine::~NV2APRMCIOEngine() {
 }
 
-void NV2APRMCIOEngine::Stop() {
+void NV2APRMCIOEngine::Start() {
 }
 
-void NV2APRMCIOEngine::Reset() {
+void NV2APRMCIOEngine::Stop() {
 }
 
 void NV2APRMCIOEngine::Read(uint32_t address, uint32_t *value, uint8_t size) {
