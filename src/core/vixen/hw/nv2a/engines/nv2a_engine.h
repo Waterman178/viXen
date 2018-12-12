@@ -97,12 +97,12 @@ protected:
 public:
     inline const Engine& GetParams() const { return engine; }
 
-    void Reset() {
+    void Reset() override {
         memset(m_regs, 0, sizeof(m_regs));
         Start();
     }
     
-    void Enable() {
+    void Enable() override {
         if constexpr (engine.enableBit != PMCEnableNone) {
             if (!m_enabled) {
                 Reset();
@@ -111,7 +111,7 @@ public:
         }
     }
 
-    void Disable() {
+    void Disable() override {
         if constexpr (engine.enableBit != PMCEnableNone) {
             if (m_enabled) {
                 Stop();
@@ -120,7 +120,7 @@ public:
         }
     }
 
-    inline bool IsEnabled() const { return m_enabled; }
+    inline bool IsEnabled() const override { return m_enabled; }
 
 protected:
     /*!
@@ -178,7 +178,6 @@ protected:
         case 4: *(uint32_t*)&m_regs[reg] = value; break;
         }
     }
-
 
 private:
     // The registers used by this engine

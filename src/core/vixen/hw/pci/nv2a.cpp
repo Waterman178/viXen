@@ -111,7 +111,7 @@ void NV2ADevice::PCIIOWrite(int barIndex, uint32_t port, uint32_t value, uint8_t
 }
 
 void NV2ADevice::PCIMMIORead(int barIndex, uint32_t addr, uint32_t *value, uint8_t size) {
-    if (addr & 3) {
+    if (addr & (size - 1)) {
         log_warning("NV2ADevice::MMIORead:  Misaligned MMIO read!  bar = %d,  addr = 0x%x,  size = %u\n", barIndex, addr, size);
     }
 
@@ -144,7 +144,7 @@ void NV2ADevice::PCIMMIORead(int barIndex, uint32_t addr, uint32_t *value, uint8
 }
 
 void NV2ADevice::PCIMMIOWrite(int barIndex, uint32_t addr, uint32_t value, uint8_t size) {
-    if (addr & 3) {
+    if (addr & (size - 1)) {
         log_warning("NV2ADevice::MMIOWrite:  Misaligned MMIO write!  bar = %d,  addr = 0x%x,  size = %u,  value = 0x%x\n", barIndex, addr, size, value);
     }
 
